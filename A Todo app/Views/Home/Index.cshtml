@@ -1,6 +1,10 @@
-﻿@{
+﻿@using A_Todo_app.Models
+@model IEnumerable<A_Todo_app.Models.Task>
+@{
     ViewBag.Title = "Home Page";
 }
+
+
 
 <div class="jumbotron">
 
@@ -13,21 +17,45 @@
 
 
         <div class="form-group">
-            <input type="text" class="form-control" placeholder="Enter new task">
+            <input type="text" class="form-control" id="inputTask" placeholder="Enter new task">
         </div><!--form-group -->
 
         <div class="row">
             <div class="col-md-4 col-lg-2">
-                <button class="btn btn-primary btn-block">Add task</button>
+
+                <button type="button" class="btn btn-primary btn-block" id="buttonAddNewTask"> Add Task </button>
             </div><!-- col -->
         </div><!-- row -->
 
+        <br />
     </div><!-- Container-->
+    <!--bootstrap table-->
+
+
+
+    <table class="table table-condensed table-hover">
+        <thead>
+            <tr>
+                <th> </th>
+                <th> </th>
+            </tr>
+        </thead>
+        <tbody>
+
+
+            <tr>
+                <td> </td>
+                <td> </td>
+
+            </tr>
+
+
+        </tbody>
+    </table>
 
 
 
 
-    <hr />
     <div class="row">
         <div class="col-sm-2">
             <p></p>
@@ -35,4 +63,32 @@
     </div>
 
 
+
+
+
 </div>
+
+@section Scripts
+{
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script type="text/javascript">
+
+        $(function () {
+
+            $('body').on('click', '#buttonAddNewTask', function () {
+                alert("LinkButton clicked.");
+            });
+
+
+        });
+
+
+
+
+
+
+    </script>
+
+
+}
+
