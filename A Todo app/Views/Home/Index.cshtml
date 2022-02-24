@@ -27,29 +27,23 @@
 
         <br />
     </div><!-- Container-->
-    <!--bootstrap table-->
+
+    <!--bootstrap grid-->
+    <div class="container">
+        <div class="row" >
+            <div class="col-sm" id="taskLists">
+                
+            </div>
+            <div class="col-sm">
+                
+            </div>
+            <div class="col-sm">
+              
+            </div>
+        </div>
+    </div>
 
 
-
-    <table class="table table-condensed table-hover">
-        <thead>
-            <tr>
-                <th> </th>
-                <th> </th>
-            </tr>
-        </thead>
-        <tbody>
-
-
-            <tr>
-                <td> </td>
-                <td> </td>
-
-            </tr>
-
-
-        </tbody>
-    </table>
 
 
 
@@ -80,40 +74,52 @@
                 if (taskName == null || taskName == "") {
 
                     alert("Task cannot be empty");
+                    
                     return;
                 }
 
+               
 
 
 
+                var dataToPost = {};
+                dataToPost.Description = taskName;
 
 
-            var dataToPost = {};
-            dataToPost.Description = taskName;
+                //posting data into controller
 
-            //posting data into controller
+                $.post("@Url.Action("AddTask","Home")", { task: dataToPost }, function (data) {
 
-            $.post("@Url.Action("AddTask", "Home")", { task: dataToPost }, function (data) {
+                    if (data.status == 1) {
+                        alert(data.message);
 
-                if (data.status == 1) {
-                    alert(data.message);
-                }
-                else
-                {
-                    alert("Something went wrong");
-                }
-            })
+                        console.log(dataToPost);
+                       
+                        jQuery.each(dataToPost.Description, function (i, val) {
+                          const li =   $("#taskLists").append(document.createElement("li"));
+                            $("#taskLists").append(document.createTextNode(val));
+                            const textnode = document.createTextNode($("taskLists"));
+                            li.appendChild(textnode);
+                            orderedList.appendChild(li);
+                        });
+                    }
 
+                    else
+                    {
+                        alert("Something went wrong");
+                    }
 
-
-
+                })
 
 
             });
+
+
         });
 
+       
 
-
+     
 
     </script>
 

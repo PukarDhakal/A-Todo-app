@@ -4,12 +4,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.SessionState;
 
 namespace A_Todo_app.Controllers
 {
+    [SessionState(SessionStateBehavior.Default)]
     public class HomeController : Controller
     {
-
+        
 
         //GET all tasks
         
@@ -22,22 +24,29 @@ namespace A_Todo_app.Controllers
         }
 
 
-        //posting data after validating, returns json format
+        //posting data after validating, returns json format and saved into session
         [HttpPost]
-        public ActionResult AddTask(Task task)
+      
+        public JsonResult AddTask(Task task)
         {
-            if(task == null)
+            Session["Description"] = Convert.ToString(task.Description);
+            if (task == null)
             {
-                return Json(new { status = 0, message ="Failed" }, JsonRequestBehavior.AllowGet);
+                return Json(new { status = 0, message = "Failed to add task" }, JsonRequestBehavior.AllowGet);
             }
 
 
-            return Json(new { status = 1, message = "success" }); 
+            return Json(new { status = 1, message = "Task successfully added" });
+           
 
         }
 
+
        
-       
+        
+
+
+
 
 
 
