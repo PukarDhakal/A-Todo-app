@@ -1,6 +1,4 @@
-﻿@using A_Todo_app.Models
-@model IEnumerable<A_Todo_app.Models.Task>
-@{
+﻿@{
     ViewBag.Title = "Home Page";
 }
 
@@ -76,13 +74,43 @@
         $(function () {
 
             $('body').on('click', '#buttonAddNewTask', function () {
-                alert("LinkButton clicked.");
+
+                var taskName = $(inputTask).val();
+
+                if (taskName == null || taskName == "") {
+
+                    alert("Task cannot be empty");
+                    return;
+                }
+
+
+
+
+
+
+            var dataToPost = {};
+            dataToPost.Description = taskName;
+
+            //posting data into controller
+
+            $.post("@Url.Action("AddTask", "Home")", { task: dataToPost }, function (data) {
+
+                if (data.status == 1) {
+                    alert(data.message);
+                }
+                else
+                {
+                    alert("Something went wrong");
+                }
+            })
+
+
+
+
+
+
             });
-
-
         });
-
-
 
 
 

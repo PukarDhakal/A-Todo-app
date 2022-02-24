@@ -9,6 +9,6 @@ namespace A_Todo_app.Models
     {
         
         public string Description { get; set; }
-        public DateTime DateTime { get; set; }
+      
     }
 }
