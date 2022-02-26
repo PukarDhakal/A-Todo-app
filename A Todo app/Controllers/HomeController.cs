@@ -17,8 +17,9 @@ namespace A_Todo_app.Controllers
 
         public ActionResult Index()
         {
-
-            return View();
+            TaskViewModel task = new TaskViewModel();
+            List<TaskViewModel> tasks = new List<TaskViewModel>();
+            return View(tasks);
 
 
         }
@@ -27,37 +28,38 @@ namespace A_Todo_app.Controllers
         //Http post to set session variable and returns json result
 
         [HttpPost]
-        public JsonResult AjaxMethod(string description)
+        public ActionResult AjaxMethod(string enteredTask)
         {
-            Session["Description"] = description;
+            Session["EnteredTask"] = enteredTask;
 
-            Task task = new Task
+            TaskViewModel task = new TaskViewModel
             {
-                Description = Session["Description"].ToString(),
+                Description = Session["EnteredTask"].ToString()
 
             };
+            List<TaskViewModel> tasks = new List<TaskViewModel>();
+            tasks.Add(task);
 
-            return Json(task);
+            return PartialView("_TaskList", tasks);
+           
         }
 
 
 
 
-        [HttpGet]
-        public JsonResult GetSessionData()
-        {
+        //[HttpGet]
+        //public ActionResult GetSessionData()
+        //{
 
 
-            Task task = new Task
-            {
-                Description = Session["Description"].ToString()
+        //    TaskViewModel task = new TaskViewModel
+        //    {
+        //        Description = Session["Description"].ToString()
 
-            };
+        //    };
 
-
-
-            return Json(task, JsonRequestBehavior.AllowGet);
-        }
+           
+        //}
 
 
 

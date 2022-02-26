@@ -1,4 +1,5 @@
-﻿@{
+﻿@model IEnumerable<A_Todo_app.Models.TaskViewModel>
+@{
     ViewBag.Title = "Home Page";
 }
 
@@ -28,13 +29,9 @@
         <br />
     </div><!-- Container-->
 
+    <div id="divTaskList">
+    </div>
 
-    <table id="tableTasklists" class="table table-bordered table-primary table-responsive table-hover">
-
-        <tbody>
-        </tbody>
-
-    </table>
 </div>
 
 
@@ -46,20 +43,20 @@
 @section Scripts
 {
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <script type="text/javascript">
 
         $(function () {
             $('body').on('click', '#buttonAddNewTask', function () {
+                var inputTask = $("#textInputTask").val();
                 $.ajax({
                     type: "POST",
-                    url: "/Home/AjaxMethod",
-                    data: '{description : "' + $("#textInputTask").val() + '" }',
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
+                    url: '@Url.Action("AjaxMethod", "Home")',
+                    data: { enteredTask: inputTask },
+                    dataType: "HTML",
                     success: function (response) {
-
+                      //  alert('Button clicked');
                         var taskName = $(textInputTask).val();
                         if (taskName == null || taskName == "") {
 
@@ -69,7 +66,7 @@
                         }
                         else
                         {
-                            LoadData();
+                            $('#divTaskList').html(response);
 
                         }
 
@@ -90,7 +87,7 @@
 
         //Loading session data using AJAX
 
-        function LoadData() {
+        @*function LoadData() {
            var task = "@Session["Description"]";
             $.ajax({
                 type: "GET",
@@ -100,12 +97,15 @@
 
                     $.each(response, function (i, task) {
 
-                   
-                        var rows = "<tr align='center', id='taskrow' , class='taskRowClass'>" + "<td>" + task + "</td>"  + "</tr>";
+                        $(document).ready(function () {
+                            taskAdd();
+                        });
+
+                       /* var rows = "<tr align='center', id='taskrow' , class='taskRowClass'>" + "<td>" + task + "</td>"  + "</tr>";*/
 
 
 
-                        $('#tableTasklists tbody').append(rows)
+                      /*  $('#tableTasklists tbody').append(rows)*/
 
                         .append(
                             $(document.createElement('input')).prop({
@@ -119,10 +119,10 @@
                             }).html('Done')))
 
 
-                      
 
-                            
-                         
+
+
+
 
 
                         //using live to bind event for dynamically added elements
@@ -167,9 +167,21 @@
             });
             return false;
 
-        }
+        }*@
 
 
+
+        //function taskAdd() {
+        //    // First check if a <tbody> tag exists, add one if not
+        //    if ($("#tableTasklists tbody").length == 0) {
+        //        $("#tableTasklists").append("<tbody></tbody>");
+        //    }
+
+        //    // Append product to the table
+        //    $("#tableTasklists tbody").append
+        //    (
+        //            "<tr align='center', id='taskrow' , class='taskRowClass'>" + "<td>" + task + "</td>" + "</tr>"
+        //    );
 
 
 
