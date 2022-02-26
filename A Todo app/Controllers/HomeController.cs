@@ -11,10 +11,10 @@ namespace A_Todo_app.Controllers
     [SessionState(SessionStateBehavior.Default)]
     public class HomeController : Controller
     {
-        
+
 
         //GET all tasks
-        
+
         public ActionResult Index()
         {
 
@@ -24,29 +24,40 @@ namespace A_Todo_app.Controllers
         }
 
 
-        //posting data after validating, returns json format and saved into session
+        //Http post to set session variable and returns json result
+
         [HttpPost]
-      
-        public JsonResult AddTask(Task task)
+        public JsonResult AjaxMethod(string description)
         {
-            Session["Description"] = Convert.ToString(task.Description);
-            if (task == null)
+            Session["Description"] = description;
+
+            Task task = new Task
             {
-                return Json(new { status = 0, message = "Failed to add task" }, JsonRequestBehavior.AllowGet);
-            }
+                Description = Session["Description"].ToString(),
 
+            };
 
-            return Json(new { status = 1, message = "Task successfully added" });
-           
-
+            return Json(task);
         }
 
 
-       
-        
+
+
+        [HttpGet]
+        public JsonResult GetSessionData()
+        {
+
+
+            Task task = new Task
+            {
+                Description = Session["Description"].ToString()
+
+            };
 
 
 
+            return Json(task, JsonRequestBehavior.AllowGet);
+        }
 
 
 

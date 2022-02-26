@@ -10,12 +10,12 @@
     <!--form-->
     <div class="container">
 
-        <h1>To Do App</h1>
+        <h1>To Do</h1>
         <p class="lead">Its easy to manage your tasks now</p>
 
 
         <div class="form-group">
-            <input type="text" class="form-control" id="inputTask" placeholder="Enter new task">
+            <input type="text" class="form-control" id="textInputTask" placeholder="Enter new task">
         </div><!--form-group -->
 
         <div class="row">
@@ -28,98 +28,150 @@
         <br />
     </div><!-- Container-->
 
-    <!--bootstrap grid-->
-    <div class="container">
-        <div class="row" >
-            <div class="col-sm" id="taskLists">
-                
-            </div>
-            <div class="col-sm">
-                
-            </div>
-            <div class="col-sm">
-              
-            </div>
-        </div>
-    </div>
 
+    <table id="tableTasklists" class="table table-bordered table-primary table-responsive table-hover">
 
+        <tbody>
+        </tbody>
 
-
-
-
-    <div class="row">
-        <div class="col-sm-2">
-            <p></p>
-        </div>
-    </div>
-
-
-
-
-
+    </table>
 </div>
+
+
+
+
+
+
 
 @section Scripts
 {
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
+
     <script type="text/javascript">
 
         $(function () {
-
             $('body').on('click', '#buttonAddNewTask', function () {
+                $.ajax({
+                    type: "POST",
+                    url: "/Home/AjaxMethod",
+                    data: '{description : "' + $("#textInputTask").val() + '" }',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
 
-                var taskName = $(inputTask).val();
+                        var taskName = $(textInputTask).val();
+                        if (taskName == null || taskName == "") {
 
-                if (taskName == null || taskName == "") {
+                            alert("Task cannot be empty");
 
-                    alert("Task cannot be empty");
-                    
-                    return;
-                }
+                            return;
+                        }
+                        else
+                        {
+                            LoadData();
 
-               
-
-
-
-                var dataToPost = {};
-                dataToPost.Description = taskName;
+                        }
 
 
-                //posting data into controller
 
-                $.post("@Url.Action("AddTask","Home")", { task: dataToPost }, function (data) {
 
-                    if (data.status == 1) {
-                        alert(data.message);
-
-                        console.log(dataToPost);
-                       
-                        jQuery.each(dataToPost.Description, function (i, val) {
-                          const li =   $("#taskLists").append(document.createElement("li"));
-                            $("#taskLists").append(document.createTextNode(val));
-                            const textnode = document.createTextNode($("taskLists"));
-                            li.appendChild(textnode);
-                            orderedList.appendChild(li);
-                        });
+                    },
+                    failure: function (response) {
+                        alert(response.responseText);
+                    },
+                    error: function (response) {
+                        alert(response.responseText);
                     }
-
-                    else
-                    {
-                        alert("Something went wrong");
-                    }
-
-                })
-
-
+                });
             });
-
-
         });
 
-       
 
-     
+        //Loading session data using AJAX
+
+        function LoadData() {
+           var task = "@Session["Description"]";
+            $.ajax({
+                type: "GET",
+                url: "/Home/GetSessionData",
+
+                success: function (response) {
+
+                    $.each(response, function (i, task) {
+
+                   
+                        var rows = "<tr align='center', id='taskrow' , class='taskRowClass'>" + "<td>" + task + "</td>"  + "</tr>";
+
+
+
+                        $('#tableTasklists tbody').append(rows)
+
+                        .append(
+                            $(document.createElement('input')).prop({
+                                id: 'taskCheckBox',
+                                type: 'checkbox',
+                                class: 'larger',
+                                value: 'Done'
+
+                            }).append($(document.createElement('label')).prop({
+                                for: 'taskCheckBox'
+                            }).html('Done')))
+
+
+                      
+
+                            
+                         
+
+
+                        //using live to bind event for dynamically added elements
+                        //removing appended elements using its index
+
+                        $("#taskCheckBox").live('change', function () {
+
+
+                            //edit  function
+                            //delete function
+
+                            //var checkboxIndex = $(this).index()
+
+                            //var rowindex = $(this).parent().index();
+
+                            ////removing rows
+                            //$("input").eq(checkboxIndex).remove();
+                            //$("tr").eq(rowindex).remove();
+
+
+
+
+                        });
+
+
+
+                    })
+
+
+
+
+
+
+
+                },
+                error: function (ex) {
+                    var r = jQuery.parseJSON(response.responseText);
+                    alert("Message: " + r.Message);
+                    alert("StackTrace: " + r.StackTrace);
+                    alert("ExceptionType: " + r.ExceptionType);
+                }
+            });
+            return false;
+
+        }
+
+
+
+
 
     </script>
 

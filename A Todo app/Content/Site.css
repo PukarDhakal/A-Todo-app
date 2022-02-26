@@ -1,12 +1,18 @@
 ﻿body {
     padding-top: 50px;
     padding-bottom: 20px;
+    background-color: #00DBDE;
+    background-image: linear-gradient(90deg, #00DBDE 0%, #FC00FF 100%);
+    font-family: 'Exo', sans-serif;
 }
-
+.jumbotron {
+    background: rgb(255 255 255 / 0.45);
+}
 /* Set padding to keep content from hitting the edges */
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
+
 }
 
 /* Override the default bootstrap behavior where horizontal description lists 
@@ -21,4 +27,23 @@ input,
 select,
 textarea {
     max-width: 280px;
+}
+
+.form button {
+    background-color: #03d7ff;
+    border: 2px solid #03d7ff;
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 15px;
+}
+
+
+input.larger {
+    width: 30px;
+    height: 30px;
+    
+}
+
+label {
+    font: 15px 'Exo 2', sans-serif;
 }
