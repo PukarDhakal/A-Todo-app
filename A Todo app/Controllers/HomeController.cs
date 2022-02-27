@@ -13,34 +13,44 @@ namespace A_Todo_app.Controllers
     {
 
 
-        //GET all tasks
+        
 
         public ActionResult Index()
         {
-            TaskViewModel task = new TaskViewModel();
-            List<TaskViewModel> tasks = new List<TaskViewModel>();
-            return View(tasks);
+            
+            return View();
 
 
         }
 
 
-        //Http post to set session variable and returns json result
-
+        //Http post to set session variable and returns partial view 
+        
         [HttpPost]
         public ActionResult AjaxMethod(string enteredTask)
         {
-            Session["EnteredTask"] = enteredTask;
 
-            TaskViewModel task = new TaskViewModel
+
+            TaskViewModel taskViewModel = new TaskViewModel
             {
-                Description = Session["EnteredTask"].ToString()
+                Description = enteredTask.ToString()
 
             };
-            List<TaskViewModel> tasks = new List<TaskViewModel>();
-            tasks.Add(task);
 
-            return PartialView("_TaskList", tasks);
+         
+            
+            taskViewModel.taskLists  = new List<TaskViewModel>();
+
+            taskViewModel.taskLists.Add(taskViewModel);
+
+            Session["Description"] = taskViewModel.taskLists;
+
+            var sessionTasks = (IEnumerable<TaskViewModel>)Session["Description"];
+
+
+            
+
+            return PartialView("_TaskList", sessionTasks);
            
         }
 
@@ -52,13 +62,9 @@ namespace A_Todo_app.Controllers
         //{
 
 
-        //    TaskViewModel task = new TaskViewModel
-        //    {
-        //        Description = Session["Description"].ToString()
+        //    return PartialView("_TaskList", sessionTasks);
 
-        //    };
 
-           
         //}
 
 

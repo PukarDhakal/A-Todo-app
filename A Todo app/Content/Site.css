@@ -39,11 +39,27 @@ textarea {
 
 
 input.larger {
-    width: 30px;
-    height: 30px;
-    
+    width: 20px;
+    height: 20px;
+  
 }
 
-label {
+/*.checkBoxLabel {
     font: 15px 'Exo 2', sans-serif;
+}*/
+
+@media only screen and (min-width: 0px) and (max-width: 700px) {
+    td {
+        display: inline-block;
+        padding: 5px;
+        width: 100%;
+    }
+}
+
+.btn {
+    font-size: 0.875em;
+    display: block;
+    left: -60px;
+    margin-top: 35px;
+    width: 100%;
 }

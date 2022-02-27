@@ -9,6 +9,6 @@ namespace A_Todo_app.Models
     {
         
         public string Description { get; set; }
-        public List<TaskViewModel> taskList { get; set; }
+        public List<TaskViewModel> taskLists { get; set; }
     }
 }
