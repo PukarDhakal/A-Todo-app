@@ -29,18 +29,18 @@ textarea {
     max-width: 280px;
 }
 
-.form button {
+/*.form button {
     background-color: #03d7ff;
     border: 2px solid #03d7ff;
     border-radius: 4px;
     font-family: inherit;
     font-size: 15px;
-}
+}*/
 
 
 input.larger {
-    width: 20px;
-    height: 20px;
+    width: 50px;
+    height: 50px;
   
 }
 
@@ -49,11 +49,13 @@ input.larger {
 }*/
 
 @media only screen and (min-width: 0px) and (max-width: 700px) {
-    td {
+  
+    .td {
         display: inline-block;
         padding: 5px;
         width: 100%;
     }
+  
 }
 
 .btn {
@@ -61,5 +63,5 @@ input.larger {
     display: block;
     left: -60px;
     margin-top: 35px;
-    width: 100%;
+   
 }

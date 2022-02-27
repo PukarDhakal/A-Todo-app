@@ -31,8 +31,8 @@
 
     <div class="container" id="divTaskList">
         <div class="row row-centered pos">
-            
-          
+
+
         </div>
     </div>
 
@@ -70,7 +70,14 @@
                         }
                         else
                         {
+                            //displaying partial view
                             $('#divTaskList').html(response);
+
+                            disableElements();
+                            editFunction();
+                            deleteFunction();
+
+
 
                         }
 
@@ -86,125 +93,81 @@
                     }
                 });
             });
+
+
+
+            function disableElements() {
+                //jQuery listen for checkbox change to disable some row elements 
+                $("#flexCheckDefault").change(function () {
+                    if (this.checked) {
+                        $("#buttonEdit").attr("disabled", true);
+                        $('#buttonEdit').addClass('disabled');
+
+                        $("#flexCheckDefault").attr("disabled", true);
+                        $('#flexCheckDefault').addClass('disabled');
+
+
+
+                    }
+
+                });
+            }
+
+
+
+
+
+            function editFunction() {
+                //editing task with content editable attribute
+                $("#taskTable").on("click", "#buttonEdit", function () {
+
+                    // change content editable attribute 
+                    $('#taskDescription').attr('contenteditable', 'true');
+                    $('#taskDescription').focus();
+
+                    //change button text
+                    // Add other DIV
+                    $(this).append('<button type="button" class="btn btn-success" id="buttonSave">Save</button>');
+                })
+                    .on('click', "#buttonSave", function () {
+
+                        $(this).remove();
+                        e.stopPropagation();
+                        $('#taskDescription').attr('contenteditable', 'false');
+                        $('#taskDescription').blur();
+
+
+                    });
+
+            }
+
+
+            function deleteFunction() {
+                //removing a row with delete button
+                $("#taskTable").on("click", "#buttonDelete", function () {
+                    $(this).closest("tr").remove();
+                });
+            }
+
+
+
+
+
+
+
+
+
+
+
+
         });
 
 
-        $("").live("click", function () {
-
-            $('#detailInfo').html('set your value as you want');
-
-        });
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-        //Loading session data using AJAX
-
-        @*function LoadData() {
-           var task = "@Session["Description"]";
-            $.ajax({
-                type: "GET",
-                url: "/Home/GetSessionData",
-
-                success: function (response) {
-
-                    $.each(response, function (i, task) {
-
-                        $(document).ready(function () {
-                            taskAdd();
-                        });
-
-                       /* var rows = "<tr align='center', id='taskrow' , class='taskRowClass'>" + "<td>" + task + "</td>"  + "</tr>";*/
-
-
-
-                      /*  $('#tableTasklists tbody').append(rows)*/
-
-                        .append(
-                            $(document.createElement('input')).prop({
-                                id: 'taskCheckBox',
-                                type: 'checkbox',
-                                class: 'larger',
-                                value: 'Done'
-
-                            }).append($(document.createElement('label')).prop({
-                                for: 'taskCheckBox'
-                            }).html('Done')))
-
-
-
-
-
-
-
-
-                        //using live to bind event for dynamically added elements
-                        //removing appended elements using its index
-
-                        $("#taskCheckBox").live('change', function () {
-
-
-                            //edit  function
-                            //delete function
-
-                            //var checkboxIndex = $(this).index()
-
-                            //var rowindex = $(this).parent().index();
-
-                            ////removing rows
-                            //$("input").eq(checkboxIndex).remove();
-                            //$("tr").eq(rowindex).remove();
-
-
-
-
-                        });
-
-
-
-                    })
-
-
-
-
-
-
-
-                },
-                error: function (ex) {
-                    var r = jQuery.parseJSON(response.responseText);
-                    alert("Message: " + r.Message);
-                    alert("StackTrace: " + r.StackTrace);
-                    alert("ExceptionType: " + r.ExceptionType);
-                }
-            });
-            return false;
-
-        }*@
-
-
-
-        //function taskAdd() {
-        //    // First check if a <tbody> tag exists, add one if not
-        //    if ($("#tableTasklists tbody").length == 0) {
-        //        $("#tableTasklists").append("<tbody></tbody>");
-        //    }
-
-        //    // Append product to the table
-        //    $("#tableTasklists tbody").append
-        //    (
-        //            "<tr align='center', id='taskrow' , class='taskRowClass'>" + "<td>" + task + "</td>" + "</tr>"
-        //    );
 
 
 

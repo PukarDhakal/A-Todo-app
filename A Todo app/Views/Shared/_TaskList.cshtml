@@ -1,13 +1,15 @@
 ﻿@model IEnumerable<A_Todo_app.Models.TaskViewModel>
 
 
-<table class="table table-bordered table-primary table-responsive table-hover ">
+<table class="table table-bordered table-primary table-responsive table-hover" id="taskTable">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Description)
+            
+                @Html.DisplayNameFor(model => model.Description)
+              
         </th>
         <th>
-            Done
+            Mark as Done <i class="fa fa-check fa-lg" aria-hidden="true"></i>
         </th>
         <th>
             Edit/Delete
@@ -15,22 +17,19 @@
     </tr>
 
 @foreach (var item in Model) {
-    <tr>
-        <td id="taskDescription" >
+    <tr id="taskRow">
+        <td id="taskDescription" style="word-break:break-all">
             @Html.DisplayFor(modelItem => item.Description)
         </td>
        
         <td>
-            <input type="checkbox" value="" id="flexCheckDefault" class="larger" >       
-            
+            <input type="checkbox" value="" id="flexCheckDefault" class="larger">
         </td>
+
         <td>
-
-            <button type="button" class="btn btn-primary"><i class="fas fa-edit"></i>Edit</button>
-
-            <button type="button" class="btn btn-danger"><i class="fas fa-trash"></i>Delete</button>
+               <button type="button" class="btn btn-primary" id="buttonEdit"><i class="fas fa-edit " aria-hidden="true"></i>Edit</button>
+                <button type="button" class="btn btn-danger" id="buttonDelete"><i class="fas fa-trash" aria-hidden="true"></i>Delete</button>
         </td>
-            
         
     </tr>
 }
