@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<A_Todo_app.Models.TaskViewModel>
+
 @{
     ViewBag.Title = "Home Page";
 }
@@ -130,11 +131,13 @@
                     $(this).append('<button type="button" class="btn btn-success" id="buttonSave">Save</button>');
                 })
                     .on('click', "#buttonSave", function () {
-
+                      
                         $(this).remove();
-                        e.stopPropagation();
+                       
+                        
                         $('#taskDescription').attr('contenteditable', 'false');
                         $('#taskDescription').blur();
+                        e.stopPropagation();
 
 
                     });

@@ -31,24 +31,26 @@ namespace A_Todo_app.Controllers
         {
 
 
-            TaskViewModel taskViewModel = new TaskViewModel
+            var taskViewModel = new TaskViewModel
             {
-                Description = enteredTask.ToString()
+                Description = enteredTask.ToString(),
+                taskLists = (List<TaskViewModel>)Session["Description"] ?? new List<TaskViewModel>()
 
             };
 
-         
             
-            taskViewModel.taskLists  = new List<TaskViewModel>();
+            
+            
 
             taskViewModel.taskLists.Add(taskViewModel);
 
-            Session["Description"] = taskViewModel.taskLists;
 
+
+            Session["Description"] = taskViewModel.taskLists;
             var sessionTasks = (IEnumerable<TaskViewModel>)Session["Description"];
 
 
-            
+
 
             return PartialView("_TaskList", sessionTasks);
            
